@@ -68,7 +68,7 @@ signal over_flow_A_dut: signed(1 downto 0);
 signal over_flow_B_dut: signed(1 downto 0);
 
 signal  clk_dut: std_logic := '0';
-constant clk_cyl: time := 20 ns;
+constant clk_cyl: time := 100 ns;
 
 --File handling
 file fInput: text;
@@ -115,20 +115,7 @@ stimuli: process
 begin
 	file_open(fInput, "mixer_data_tb.txt", read_mode);
 	while not endfile(fInput) loop
-		--readline(fInput, inLine);	--skip the 1st line
 		readline(fInput, inLine);
-		hread(inLine, tempDataIn);
-		ch0_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
-		hread(inLine, tempDataIn);
-		ch1_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
-		hread(inLine, tempDataIn);
-		ch2_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
-		hread(inLine, tempDataIn);
-		ch3_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
 
 		hread(inLine, tempLvlIn);
 		gain_ctrA0_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
@@ -162,7 +149,24 @@ begin
 		hread(inLine, tempLvlIn);
 		gain_ctrMB_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 
-		wait for 7*clk_cyl;
+
+		hread(inLine, tempDataIn);
+		ch0_in_dut <= signed(tempDataIn);
+		read(inLine, ch);
+		wait for clk_cyl;
+		hread(inLine, tempDataIn);
+		ch1_in_dut <= signed(tempDataIn);
+		read(inLine, ch);
+		wait for clk_cyl;
+		hread(inLine, tempDataIn);
+		ch2_in_dut <= signed(tempDataIn);
+		read(inLine, ch);
+		wait for clk_cyl;
+		hread(inLine, tempDataIn);
+		ch3_in_dut <= signed(tempDataIn);
+		read(inLine, ch);
+
+		wait for 3*clk_cyl;
 	end loop;
 	file_close(fInput);
 
