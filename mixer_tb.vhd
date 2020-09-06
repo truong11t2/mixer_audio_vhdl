@@ -38,8 +38,8 @@ port(
 
 	mix_chA_out: out signed(DATA_WIDTH_OUT-1 downto 0);
 	mix_chB_out: out signed(DATA_WIDTH_OUT-1 downto 0);
-	over_flow_A: out signed(1 downto 0);
-	over_flow_B: out signed(1 downto 0);
+	over_flow_chA_out: out signed(1 downto 0);
+	over_flow_chB_out: out signed(1 downto 0);
 	clk: in std_logic
 );
 end component;
@@ -64,8 +64,8 @@ signal gain_ctrMB_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 
 signal mix_chA_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
 signal mix_chB_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
-signal over_flow_A_dut: signed(1 downto 0);
-signal over_flow_B_dut: signed(1 downto 0);
+signal over_flow_chA_out_dut: signed(1 downto 0);
+signal over_flow_chB_out_dut: signed(1 downto 0);
 
 signal  clk_dut: std_logic := '0';
 constant clk_cyl: time := 100 ns;
@@ -98,8 +98,8 @@ dut: mixer_datapath
 
 	mix_chA_out => mix_chA_out_dut,
 	mix_chB_out => mix_chB_out_dut,
-	over_flow_A => over_flow_A_dut,
-	over_flow_B => over_flow_B_dut,
+	over_flow_chA_out => over_flow_chA_out_dut,
+	over_flow_chB_out => over_flow_chB_out_dut,
 
 	clk => clk_dut);
 

@@ -27,23 +27,13 @@ port(
 
 	mix_chA_out: out signed(DATA_WIDTH_OUT-1 downto 0);
 	mix_chB_out: out signed(DATA_WIDTH_OUT-1 downto 0);
-	over_flow_A: out signed(1 downto 0);
-	over_flow_B: out signed(1 downto 0);
+	over_flow_chA_out: out signed(1 downto 0);
+	over_flow_chB_out: out signed(1 downto 0);
 	clk: in std_logic
 );
 end entity;
 
 architecture rtl of mixer_datapath is
-
-signal	tmp0_in: signed(DATA_WIDTH_IN-1 downto 0);
-signal	tmp1_in: signed(DATA_WIDTH_IN-1 downto 0);
-signal	tmp2_in: signed(DATA_WIDTH_IN-1 downto 0);
-signal	tmp3_in: signed(DATA_WIDTH_IN-1 downto 0);
-
-signal	mix_chA: signed(DATA_WIDTH_OUT-1 downto 0);
-signal	mix_chB: signed(DATA_WIDTH_OUT-1 downto 0);
-signal	flgOverFlow_A: signed(1 downto 0) := (others => '1');
-signal	flgOverFlow_B: signed(1 downto 0) := (others => '1');
 
 signal curr_state: natural range 0 to 2**num_state;
 signal next_state: natural range 0 to 2**num_state;
@@ -59,15 +49,12 @@ signal sum_prod_B: signed(DATA_WIDTH_IN+1 downto 0);
 signal write_add_A: natural range 0 to 9;
 signal write_add_B: natural range 0 to 9;
 
-signal read_ch: natural range 0 to 4;
 signal gain_lvl_A: unsigned(GAIN_WIDTH_IN-1 downto 0);
 signal gain_lvl_B: unsigned(GAIN_WIDTH_IN-1 downto 0);
 
 signal data_in: signed(DATA_WIDTH_IN-1 downto 0);
 
 signal operation: natural range 0 to 3;
-
-signal write_ena: std_logic;
 
 --Result of multiplication
 signal prod_A: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
@@ -76,7 +63,6 @@ signal last_prod_A: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
 signal last_prod_B: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
 signal temp_A: signed(DATA_WIDTH_IN-1 downto 0);
 signal temp_B: signed(DATA_WIDTH_IN-1 downto 0);
-
 
 signal reg_in_sel: natural range 0 to 6;
 
@@ -100,20 +86,7 @@ constant ADD: natural := 1;
 constant MUL: natural := 2;
 constant LAST_MUL: natural := 3;
 
-signal flg_fin_cal: boolean;
-
 begin
-
-tmp0_in <= ch0_in;
-tmp1_in <= ch1_in;
-tmp2_in <= ch2_in;
-tmp3_in <= ch3_in;
-
-mix_chA_out <= mix_chA;
-mix_chB_out <= mix_chB;
-over_flow_A <= flgOverFlow_A;
-over_flow_B <= flgOverFlow_B;
-
 
 --reg_in_muxA: process(reg_in_sel, tmp0_in, tmp1_in, tmp2_in, tmp3_in)
 reg_in_muxA: process(reg_in_sel)
@@ -121,10 +94,10 @@ reg_in_muxA: process(reg_in_sel)
 begin
 --if rising_edge(clk) then
 	case reg_in_sel is
-	when FROM_CH0 => data_in <= tmp0_in;
-	when FROM_CH1 => data_in <= tmp1_in;
-	when FROM_CH2 => data_in <= tmp2_in;
-	when FROM_CH3 => data_in <= tmp3_in;
+	when FROM_CH0 => data_in <= ch0_in;
+	when FROM_CH1 => data_in <= ch1_in;
+	when FROM_CH2 => data_in <= ch2_in;
+	when FROM_CH3 => data_in <= ch3_in;
 	when others => data_in <= (others => '0');
 	end case;
 --end if;
@@ -142,12 +115,10 @@ process_ch0: process(curr_state)
 begin
 	write_add_A <= 0;
 	write_add_B <= 4;
-	write_ena <= '1';
 	--next_state <= curr_state;
 	case curr_state is 
 		when IDLE_STATE =>
 			next_state <= S0_STATE;
-			--flg_fin_cal <= false;
 		when S0_STATE =>
 			reg_in_sel <= FROM_CH0;
 			gain_lvl_A <= gain_ctrA0;
@@ -155,7 +126,6 @@ begin
 			operation <= MUL;
 			write_add_A <= 0;
 			write_add_B <= 4;
-			write_ena <= '0';
 			next_state <= S1_STATE;
 		when S1_STATE =>
 			reg_in_sel <= FROM_CH1;
@@ -188,24 +158,12 @@ begin
 			gain_lvl_A <= gain_ctrMA;
 			gain_lvl_B <= gain_ctrMB;
 			operation <= LAST_MUL;
-			write_add_A <= 8;
-			write_add_B <= 9;
-			--flg_fin_cal <= true;
 			next_state <= S0_STATE;
 		when others =>
 			next_state <= S0_STATE;
 	end case;
 	
 end process;
-
-
---write_to_reg: process(write_add_A, write_add_B)
---begin
---	prod_buff(write_add_A) <= signed(prod_A);
---	prod_buff(write_add_B) <= signed(prod_B);
---end process;
-
-
 
 -- Calculate the result
 calculate: process(operation, data_in, gain_lvl_A, gain_lvl_B)
@@ -218,16 +176,10 @@ begin
 			prod_B <= gainCal(data_in, gain_lvl_B);
 		when ADD =>
 			sum_prod_A <= overFlowCal(prod_buff(0), prod_buff(1), prod_buff(2), prod_buff(3));
-			--flgOverFlow_A <= sum_prod_A(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
-			--temp_A <= sum_prod_A(DATA_WIDTH_IN-1 downto 0);
 			sum_prod_B <= overFlowCal(prod_buff(4), prod_buff(5), prod_buff(6), prod_buff(7));
-			--flgOverFlow_B <= sum_prod_B(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
-			--temp_B <= sum_prod_B(DATA_WIDTH_IN-1 downto 0);
 		when LAST_MUL =>
 			last_prod_A <= gainCal(temp_A, gain_lvl_A);
-			--mix_chA <= prod_A(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
 			last_prod_B <= gainCal(temp_B, gain_lvl_B);
-			--mix_chB <= prod_B(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
 		when others =>
 	end case;
 --end if;
@@ -235,25 +187,21 @@ end process;
 
 analyze_sum: process(sum_prod_A, sum_prod_B)
 begin
-	flgOverFlow_A <= sum_prod_A(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
+	over_flow_chA_out <= sum_prod_A(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
 	temp_A <= sum_prod_A(DATA_WIDTH_IN-1 downto 0);
-	flgOverFlow_B <= sum_prod_B(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
+	over_flow_chB_out <= sum_prod_B(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
 	temp_B <= sum_prod_B(DATA_WIDTH_IN-1 downto 0);
 end process;
 
 write_to_buff: process(prod_A, prod_B)
 begin
---if rising_edge(clk) then
 	prod_buff(write_add_A) <= limitResult(prod_A);
 	prod_buff(write_add_B) <= limitResult(prod_B);
-	--mix_chA <= prod_A(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
-	--mix_chB <= prod_B(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
---end if;
 end process;
 
 output_result: process(last_prod_A, last_prod_B)
 begin
-	mix_chA <= limitFinalResult(last_prod_A);
-	mix_chB <= limitFinalResult(last_prod_B);
+	mix_chA_out <= limitFinalResult(last_prod_A);
+	mix_chB_out <= limitFinalResult(last_prod_B);
 end process;
 end architecture;

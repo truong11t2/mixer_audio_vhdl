@@ -52,7 +52,6 @@ begin
 if (gainLvl=0 and dataIn >= 0) then return mulResultTyp("00000000000" & dataIn);
 
 elsif (gainLvl=0 and dataIn < 0) then return mulResultTyp("11111111111" & dataIn);
---if (gainLvl=0) then return mulResultTyp(dataIn);
 
 --If gainLvl !=0, will consider gain or loss level
 else
@@ -76,12 +75,10 @@ else
 	--Signal gain
 	if(gainLvl >= 2#0000100000#) then 
 		temp:= to_signed(to_integer(dataIn*gain_cal), DATA_WIDTH_IN+GAIN_WIDTH_IN+1);
-		--return temp(DATA_WIDTH_IN+GAIN_WIDTH_IN downto GAIN_WIDTH_IN+1);
 		return temp;
 	--Signal loss
 	elsif(gainLvl <= 2#0000011111#) then
 		temp:= to_signed(to_integer(dataIn/gain_cal), DATA_WIDTH_IN+GAIN_WIDTH_IN+1);
-		--return temp(DATA_WIDTH_IN+GAIN_WIDTH_IN downto GAIN_WIDTH_IN+1);
 		return temp;
 	end if;
 	return temp;
