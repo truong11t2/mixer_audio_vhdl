@@ -49,7 +49,7 @@ signal curr_state: natural range 0 to 2**num_state;
 signal next_state: natural range 0 to 2**num_state;
 
 --8 registers to store temporary result of multiplication with gain level from chanels
-type prod8_arr is array (9 downto 0) of signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
+type prod8_arr is array (7 downto 0) of signed(DATA_WIDTH_IN-1 downto 0);
 signal prod_buff: prod8_arr;
 
 signal sum_prod_A: signed(DATA_WIDTH_IN+1 downto 0);
@@ -72,6 +72,8 @@ signal write_ena: std_logic;
 --Result of multiplication
 signal prod_A: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
 signal prod_B: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
+signal last_prod_A: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
+signal last_prod_B: signed(DATA_WIDTH_IN+GAIN_WIDTH_IN downto 0);
 signal temp_A: signed(DATA_WIDTH_IN-1 downto 0);
 signal temp_B: signed(DATA_WIDTH_IN-1 downto 0);
 
@@ -222,16 +224,16 @@ begin
 			--flgOverFlow_B <= sum_prod_B(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
 			--temp_B <= sum_prod_B(DATA_WIDTH_IN-1 downto 0);
 		when LAST_MUL =>
-			prod_A <= gainCal(temp_A, gain_lvl_A);
+			last_prod_A <= gainCal(temp_A, gain_lvl_A);
 			--mix_chA <= prod_A(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
-			prod_B <= gainCal(temp_B, gain_lvl_B);
+			last_prod_B <= gainCal(temp_B, gain_lvl_B);
 			--mix_chB <= prod_B(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
 		when others =>
 	end case;
 --end if;
 end process;
 
-update_val: process(sum_prod_A, sum_prod_B)
+analyze_sum: process(sum_prod_A, sum_prod_B)
 begin
 	flgOverFlow_A <= sum_prod_A(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
 	temp_A <= sum_prod_A(DATA_WIDTH_IN-1 downto 0);
@@ -242,10 +244,16 @@ end process;
 write_to_buff: process(prod_A, prod_B)
 begin
 --if rising_edge(clk) then
-	prod_buff(write_add_A) <= prod_A;
-	prod_buff(write_add_B) <= prod_B;
-	mix_chA <= prod_A(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
-	mix_chB <= prod_B(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
+	prod_buff(write_add_A) <= limitResult(prod_A);
+	prod_buff(write_add_B) <= limitResult(prod_B);
+	--mix_chA <= prod_A(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
+	--mix_chB <= prod_B(DATA_WIDTH_IN+GAIN_WIDTH_IN downto (DATA_WIDTH_IN+GAIN_WIDTH_IN-DATA_WIDTH_OUT)+1);
 --end if;
+end process;
+
+output_result: process(last_prod_A, last_prod_B)
+begin
+	mix_chA <= limitFinalResult(last_prod_A);
+	mix_chB <= limitFinalResult(last_prod_B);
 end process;
 end architecture;
