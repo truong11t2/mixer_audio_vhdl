@@ -18,10 +18,7 @@ architecture stimuli of mixer_tb is
 component mixer_datapath is
 generic (num_state: natural := 7);
 port(
-	ch0_in: in signed(DATA_WIDTH_IN-1 downto 0);
-	ch1_in: in signed(DATA_WIDTH_IN-1 downto 0);
-	ch2_in: in signed(DATA_WIDTH_IN-1 downto 0);
-	ch3_in: in signed(DATA_WIDTH_IN-1 downto 0);
+	data_in: in signed(DATA_WIDTH_IN-1 downto 0);
 
 	gain_ctrA0: in unsigned(GAIN_WIDTH_IN-1 downto 0);
 	gain_ctrA1: in unsigned(GAIN_WIDTH_IN-1 downto 0);
@@ -36,18 +33,14 @@ port(
 	gain_ctrMA: in unsigned(GAIN_WIDTH_IN-1 downto 0);
 	gain_ctrMB: in unsigned(GAIN_WIDTH_IN-1 downto 0);
 
-	mix_chA_out: out signed(DATA_WIDTH_OUT-1 downto 0);
-	mix_chB_out: out signed(DATA_WIDTH_OUT-1 downto 0);
+	data_out: out signed(DATA_WIDTH_OUT-1 downto 0);
 	over_flow_chA_out: out signed(1 downto 0);
 	over_flow_chB_out: out signed(1 downto 0);
 	clk: in std_logic
 );
 end component;
 
-signal ch0_in_dut: signed(DATA_WIDTH_IN-1 downto 0);
-signal ch1_in_dut: signed(DATA_WIDTH_IN-1 downto 0);
-signal ch2_in_dut: signed(DATA_WIDTH_IN-1 downto 0);
-signal ch3_in_dut: signed(DATA_WIDTH_IN-1 downto 0);
+signal data_in_dut: signed(DATA_WIDTH_IN-1 downto 0);
 
 signal gain_ctrA0_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 signal gain_ctrA1_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
@@ -62,8 +55,7 @@ signal gain_ctrB3_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 signal gain_ctrMA_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 signal gain_ctrMB_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 
-signal mix_chA_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
-signal mix_chB_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
+signal data_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
 signal over_flow_chA_out_dut: signed(1 downto 0);
 signal over_flow_chB_out_dut: signed(1 downto 0);
 
@@ -78,10 +70,10 @@ begin
 -- DUT instantiation
 dut: mixer_datapath
 	port map(
-	ch0_in => ch0_in_dut,
-	ch1_in => ch1_in_dut,
-	ch2_in => ch2_in_dut,
-	ch3_in => ch3_in_dut,
+	data_in => data_in_dut,
+--	ch1_in => ch1_in_dut,
+--	ch2_in => ch2_in_dut,
+--	ch3_in => ch3_in_dut,
 
 	gain_ctrA0 => gain_ctrA0_dut,
 	gain_ctrA1 => gain_ctrA1_dut,
@@ -96,8 +88,7 @@ dut: mixer_datapath
 	gain_ctrMA => gain_ctrMA_dut,
 	gain_ctrMB => gain_ctrMB_dut,
 
-	mix_chA_out => mix_chA_out_dut,
-	mix_chB_out => mix_chB_out_dut,
+	data_out => data_out_dut,
 	over_flow_chA_out => over_flow_chA_out_dut,
 	over_flow_chB_out => over_flow_chB_out_dut,
 
@@ -149,24 +140,13 @@ begin
 		hread(inLine, tempLvlIn);
 		gain_ctrMB_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 
-
+		--wait for clk_cyl/2;
 		hread(inLine, tempDataIn);
-		ch0_in_dut <= signed(tempDataIn);
+		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
-		wait for clk_cyl;
-		hread(inLine, tempDataIn);
-		ch1_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
-		wait for clk_cyl;
-		hread(inLine, tempDataIn);
-		ch2_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
-		wait for clk_cyl;
-		hread(inLine, tempDataIn);
-		ch3_in_dut <= signed(tempDataIn);
-		read(inLine, ch);
-
 		wait for 3*clk_cyl;
+
+		--wait for 4*clk_cyl;
 	end loop;
 	file_close(fInput);
 
