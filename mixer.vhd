@@ -253,7 +253,7 @@ begin
 			sum_prod_A <= overFlowCal(prod_buff(0), prod_buff(1), prod_buff(2), prod_buff(3));
 			sum_prod_B <= overFlowCal(prod_buff(4), prod_buff(5), prod_buff(6), prod_buff(7));
 		when LAST_MUL =>
-			last_prod_A <= gainCal(temp_A, gain_lvl_B);
+			last_prod_A <= gainCal(temp_A, gain_lvl_A);
 			last_prod_B <= gainCal(temp_B, gain_lvl_B);
 		when others =>
 	end case;
