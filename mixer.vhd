@@ -139,8 +139,8 @@ case curr_state is
 		next_state <= S10_STATE;
 		--data_out <= mix_chA_out;
 	when S10_STATE =>
-		gain_lvl_A <= gain_ctrA0;
-		gain_lvl_B <= gain_ctrB0;
+		gain_lvl_A <= gain_ctrA1;
+		gain_lvl_B <= gain_ctrB1;
 		operation <= MUL;
 		write_add_A <= 1;
 		write_add_B <= 5;
@@ -156,8 +156,8 @@ case curr_state is
 		next_state <= S20_STATE;
 		--data_out <= mix_chB_out;
 	when S20_STATE =>
-		gain_lvl_A <= gain_ctrA0;
-		gain_lvl_B <= gain_ctrB0;
+		gain_lvl_A <= gain_ctrA2;
+		gain_lvl_B <= gain_ctrB2;
 		operation <= MUL;
 		write_add_A <= 2;
 		write_add_B <= 6;
@@ -173,8 +173,8 @@ case curr_state is
 		next_state <= S30_STATE;
 		--data_out <= mix_chA_out;
 	when S30_STATE =>
-		gain_lvl_A <= gain_ctrA0;
-		gain_lvl_B <= gain_ctrB0;
+		gain_lvl_A <= gain_ctrA3;
+		gain_lvl_B <= gain_ctrB3;
 		operation <= MUL;
 		write_add_A <= 3;
 		write_add_B <= 7;
