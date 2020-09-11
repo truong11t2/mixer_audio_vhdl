@@ -380,6 +380,26 @@ else
 			else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
 			end if;
 		end if;
+	when "11100001" => --num2, num3, num4: negative; num1: positive (+ - - -)
+		temp1:= num1+num2; --(- +)
+		if(temp1 < 0) then --num1+num2: negative (-)
+			temp2:= temp1+num3; --num3: negative (- -)
+			if(temp2 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
+			else temp3:= temp2+num4; --num4: negative (- -)
+				if(temp3 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
+				else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
+				end if;
+			end if;
+		else --num1+num2: positive
+			temp2:= temp1+num3; --num3: negative (+ -)
+			if(temp2 < 0) then
+				temp3:= temp2+num4; --num4: negative (- -)
+				if(temp3 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
+				else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
+				end if;
+			else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
+			end if;
+		end if;
 	when others =>
 		result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
 	end case;
