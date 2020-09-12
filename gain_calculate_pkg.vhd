@@ -286,6 +286,20 @@ else
 			end if;
 		else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
 		end if;
+	when "01011010" => --num2, num4: positive; num1, num3: negative (- + - +)
+		temp1:= num1+num2; --(- +)
+		temp2:= num3+num4; --(- +)
+		temp3:= temp1+temp2;
+		if(temp1 >= 0 and temp2 >= 0) then --(+ +)
+			if(temp3 < 0) then result:= "010" & ONES; return result; -- result of adding 2 positive numbers: negative --> overflow (+ + = -)
+			else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
+			end if;
+		elsif(temp1 < 0 and temp2 < 0) then --(- -)
+			if(temp3 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
+			else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
+			end if;
+		else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
+		end if;
 	when "00111100" => --num3, num4: positive; num1, num2: negative (- - + +)
 		temp1:= num1+num3; --(- +)
 		temp2:= num2+num4; --(- +)
@@ -300,7 +314,7 @@ else
 			end if;
 		else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
 		end if;
-	when "11101000" => --num1, num2, num3: negative; num4: positive (- - - +)
+	when "01111000" => --num1, num2, num3: negative; num4: positive (- - - +)
 		temp1:= num1+num4; --(+ -)
 		if(temp1 < 0) then --num1+num4: negative (-)
 			temp2:= temp1+num2; --num2: negative (- -)
@@ -354,26 +368,6 @@ else
 			temp2:= temp1+num3; --num3: negative (+ -)
 			if(temp2 < 0) then
 				temp3:= temp2+num4; --num4: negative (- -)
-				if(temp3 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
-				else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
-				end if;
-			else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
-			end if;
-		end if;
-	when "01111000" => --num1, num2, num3: negative; num4: positive (- - - +)
-		temp1:= num1+num4; --(- +)
-		if(temp1 < 0) then --num1+num4: negative (-)
-			temp2:= temp1+num2; --num2: negative (- -)
-			if(temp2 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
-			else temp3:= temp2+num3; --num3: negative (- -)
-				if(temp3 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
-				else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
-				end if;
-			end if;
-		else --num1+num4: positive
-			temp2:= temp1+num2; --num2: negative (+ -)
-			if(temp2 < 0) then
-				temp3:= temp2+num3; --num3: negative (- -)
 				if(temp3 >= 0) then result:= "101" & ZEROS; return result; -- result of adding 2 negative numbers: positive --> overflow (- - = +)
 				else result:= "00" & temp(DATA_WIDTH_IN-1 downto 0); return result;
 				end if;

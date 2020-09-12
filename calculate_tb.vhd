@@ -199,81 +199,117 @@ begin
 
 -----------FOR OVF_01 AND OVF_02
 
-	ch0_dut <= to_signed(34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(3243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(6876, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(3243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(1, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(0, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(0, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(32767, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-8973, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-6876, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-8973, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-20743, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-32768, DATA_WIDTH_IN);
-	wait for clk_cyl;
+--	ch0_dut <= to_signed(34, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(6876, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(34, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(1, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(0, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(0, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-6876, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-1, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-1, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-32768, DATA_WIDTH_IN);
+--	wait for clk_cyl;
 
 -----------FOR OVF_03
 
-	ch0_dut <= to_signed(-32768, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-32767, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(32767, DATA_WIDTH_IN);
-	wait for clk_cyl;
+--	ch0_dut <= to_signed(-32768, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-32767, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	wait for clk_cyl;
 
-	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
-	wait for clk_cyl;
+--	ch0_dut <= to_signed(-32768, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-32767, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(327, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(0, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-133, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(1873, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-232, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(32073, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-13344, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(897, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(2073, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-32243, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(21897, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-134, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-3243, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20073, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(83, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-32034, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(73, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-3043, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(17029, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(23743, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-34, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-234, DATA_WIDTH_IN);
+--	wait for clk_cyl;
 
-	ch0_dut <= to_signed(-323, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(324, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(-323, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(325, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(-32333, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-12321, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(234, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(325, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
-	ch0_dut <= to_signed(-32768, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-32768, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(0, DATA_WIDTH_IN);
-	wait for clk_cyl;
-
------------FOR OVF_04 AND OVF_05
+-----------FOR OVF_04
 
 	ch0_dut <= to_signed(-32768, DATA_WIDTH_IN);
 	ch1_dut <= to_signed(0, DATA_WIDTH_IN);
@@ -281,47 +317,97 @@ begin
 	ch3_dut <= to_signed(0, DATA_WIDTH_IN);
 	wait for clk_cyl;
 
-	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+	ch0_dut <= to_signed(8973, DATA_WIDTH_IN);
+	ch1_dut <= to_signed(-34, DATA_WIDTH_IN);
 	ch2_dut <= to_signed(7243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+	ch3_dut <= to_signed(2743, DATA_WIDTH_IN);
 	wait for clk_cyl;
 
-	ch0_dut <= to_signed(-323, DATA_WIDTH_IN);
+	ch0_dut <= to_signed(3276, DATA_WIDTH_IN);
 	ch1_dut <= to_signed(1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
+	ch2_dut <= to_signed(-323, DATA_WIDTH_IN);
 	ch3_dut <= to_signed(323, DATA_WIDTH_IN);
 	wait for clk_cyl;
 
 	ch0_dut <= to_signed(323, DATA_WIDTH_IN);
 	ch1_dut <= to_signed(1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
+	ch2_dut <= to_signed(3276, DATA_WIDTH_IN);
 	ch3_dut <= to_signed(-325, DATA_WIDTH_IN);
 	wait for clk_cyl;
 
-	ch0_dut <= to_signed(-32767, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(0, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-1, DATA_WIDTH_IN);
-	wait for clk_cyl;
+--	ch0_dut <= to_signed(-32768, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(19873, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(19873, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-32768, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(19873, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-3276, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(19873, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(28767, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-20743, DATA_WIDTH_IN);
+--	wait for clk_cyl;
 
-	ch0_dut <= to_signed(-34, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(8973, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-9243, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-20743, DATA_WIDTH_IN);
-	wait for clk_cyl;
+-----------FOR OVF_05
 
-	ch0_dut <= to_signed(323, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-32767, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-323, DATA_WIDTH_IN);
-	wait for clk_cyl;
+--	ch0_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-343, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-893, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-343, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-893, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-343, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-893, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-343, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-893, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(32767, DATA_WIDTH_IN);
+--	wait for clk_cyl;
 
-	ch0_dut <= to_signed(323, DATA_WIDTH_IN);
-	ch1_dut <= to_signed(-1, DATA_WIDTH_IN);
-	ch2_dut <= to_signed(-32767, DATA_WIDTH_IN);
-	ch3_dut <= to_signed(-325, DATA_WIDTH_IN);
-	wait for clk_cyl;
+--	ch0_dut <= to_signed(3276, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-3403, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-18930, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-3403, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(3276, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-18930, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-3403, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-18930, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(3276, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	wait for clk_cyl;
+--
+--	ch0_dut <= to_signed(-3403, DATA_WIDTH_IN);
+--	ch1_dut <= to_signed(-18930, DATA_WIDTH_IN);
+--	ch2_dut <= to_signed(-23423, DATA_WIDTH_IN);
+--	ch3_dut <= to_signed(3276, DATA_WIDTH_IN);
+--	wait for clk_cyl;
 
 end process;
 
