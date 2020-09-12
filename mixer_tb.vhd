@@ -71,9 +71,6 @@ begin
 dut: mixer_datapath
 	port map(
 	data_in => data_in_dut,
---	ch1_in => ch1_in_dut,
---	ch2_in => ch2_in_dut,
---	ch3_in => ch3_in_dut,
 
 	gain_ctrA0 => gain_ctrA0_dut,
 	gain_ctrA1 => gain_ctrA1_dut,
@@ -98,13 +95,15 @@ clk_dut <= not clk_dut after clk_cyl/2;
 
 stimuli: process
 	variable inLine: line;
+	variable outLine: line;
 	variable lContent: string(1 to 19); 
 	variable tempDataIn: std_logic_vector(DATA_WIDTH_IN-1 downto 0);
 	variable tempLvlIn: std_logic_vector(GAIN_WIDTH_IN+1 downto 0);
-	variable outLine: line;
 	variable ch: character;
+	variable int_out: integer;
 begin
 	file_open(fInput, "mixer_data_tb.txt", read_mode);
+	file_open(fOutput, "results.txt", write_mode);
 	while not endfile(fInput) loop
 		readline(fInput, inLine);
 
@@ -144,11 +143,17 @@ begin
 		hread(inLine, tempDataIn);
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
+
 		wait for 3*clk_cyl;
 
+		int_out := to_integer(data_out_dut);
+		write(outLine, int_out, left, 4);
+		writeline(fOutput, outLine);
 		--wait for 4*clk_cyl;
 	end loop;
+
 	file_close(fInput);
+	file_close(fOutput);
 
 	wait for 30*clk_cyl;
 
