@@ -10,7 +10,7 @@ entity mixer_tb is
 generic (data_width_in: natural := 16;
 	data_width_gain: natural := 10;
 	data_width_out: natural := 24;
-	num_state: natural := 6);
+	num_state: natural := 18);
 end entity;
 
 architecture stimuli of mixer_tb is
@@ -34,8 +34,7 @@ port(
 	gain_ctrMB: in unsigned(GAIN_WIDTH_IN-1 downto 0);
 
 	data_out: out signed(DATA_WIDTH_OUT-1 downto 0);
-	over_flow_chA_out: out signed(1 downto 0);
-	over_flow_chB_out: out signed(1 downto 0);
+	over_flow_out: out signed(1 downto 0);
 	clk: in std_logic
 );
 end component;
@@ -56,8 +55,7 @@ signal gain_ctrMA_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 signal gain_ctrMB_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 
 signal data_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
-signal over_flow_chA_out_dut: signed(1 downto 0);
-signal over_flow_chB_out_dut: signed(1 downto 0);
+signal over_flow_out_dut: signed(1 downto 0);
 
 signal  clk_dut: std_logic := '0';
 constant clk_cyl: time := 100 ns;
@@ -86,8 +84,7 @@ dut: mixer_datapath
 	gain_ctrMB => gain_ctrMB_dut,
 
 	data_out => data_out_dut,
-	over_flow_chA_out => over_flow_chA_out_dut,
-	over_flow_chB_out => over_flow_chB_out_dut,
+	over_flow_out => over_flow_out_dut,
 
 	clk => clk_dut);
 
@@ -144,7 +141,7 @@ begin
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
 
-		wait for 3*clk_cyl;
+		wait for 4*clk_cyl;
 
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);
