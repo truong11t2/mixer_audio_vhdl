@@ -31,6 +31,15 @@ end entity;
 
 architecture rtl of mixer_datapath is
 
+component my_pll is 
+	port(
+        CLK: in std_logic; 
+        CLKOP: out std_logic; 
+        CLKOK: out std_logic; 
+        LOCK: out std_logic
+	);
+end component;
+
 signal curr_state: natural range 0 to 17;
 signal next_state: natural range 0 to 17;
 
@@ -95,13 +104,37 @@ constant FOR_CH_1: natural := 1;
 constant FOR_CH_2: natural := 2;
 constant FOR_CH_3: natural := 3;
 
+constant PERIOD: natural := 500;
+constant HALF_PERIOD: natural := PERIOD/2;
+signal clkCal : std_logic := '0';
+signal cntVal : natural range 0 to PERIOD;
 
 begin
 
-assign_state: process(clk)
+--my_pll_inst: my_pll
+--	port map(
+--	    CLK => clk,
+--        CLKOP => open,
+--		CLKOK =>open,
+--        LOCK => open
+--	);
+assign_state: process(clkCal)
+begin
+	if rising_edge(clkCal) then
+		curr_state <= next_state;
+	end if;
+end process;
+
+clk_divider: process(clk)
 begin
 	if rising_edge(clk) then
-		curr_state <= next_state;
+		if(cntVal = PERIOD-1) then
+			cntVal <= 0;
+			clkCal <= '0';
+		else cntVal <= cntVal+1;
+			if(cntVal = HALF_PERIOD-1) then clkCal <= '1'; end if;
+		end if;
+	
 	end if;
 end process;
 

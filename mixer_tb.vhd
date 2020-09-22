@@ -58,7 +58,7 @@ signal data_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
 signal over_flow_out_dut: signed(1 downto 0);
 
 signal  clk_dut: std_logic := '0';
-constant clk_cyl: time := 100 ns;
+constant clk_cyl: time := 10.4 ns;
 
 --File handling
 file fInput: text;
@@ -141,7 +141,7 @@ begin
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
 
-		wait for 4*clk_cyl;
+		wait for 4*500*clk_cyl;
 
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);
