@@ -16,7 +16,7 @@ end entity;
 architecture stimuli of test_wav_tb is
 -- DUT declaration
 component mixer_datapath is
-generic (num_state: natural := 7);
+generic (num_state: natural := 18);
 port(
 	data_in: in signed(DATA_WIDTH_IN-1 downto 0);
 
@@ -32,10 +32,10 @@ port(
 
 	gain_ctrMA: in unsigned(GAIN_WIDTH_IN-1 downto 0);
 	gain_ctrMB: in unsigned(GAIN_WIDTH_IN-1 downto 0);
-
+	
 	data_out: out signed(DATA_WIDTH_OUT-1 downto 0);
-	over_flow_chA_out: out signed(1 downto 0);
-	over_flow_chB_out: out signed(1 downto 0);
+
+	over_flow_out: out signed(1 downto 0);
 	clk: in std_logic
 );
 end component;
@@ -56,11 +56,10 @@ signal gain_ctrMA_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 signal gain_ctrMB_dut: unsigned(GAIN_WIDTH_IN-1 downto 0);
 
 signal data_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
-signal over_flow_chA_out_dut: signed(1 downto 0);
-signal over_flow_chB_out_dut: signed(1 downto 0);
+signal over_flow_out_dut: signed(1 downto 0);
 
 signal  clk_dut: std_logic := '0';
-constant clk_cyl: time := 100 ns;
+constant clk_cyl: time := 10 ns;
 
 --File handling
 file fInput: text;
@@ -86,8 +85,7 @@ dut: mixer_datapath
 	gain_ctrMB => gain_ctrMB_dut,
 
 	data_out => data_out_dut,
-	over_flow_chA_out => over_flow_chA_out_dut,
-	over_flow_chB_out => over_flow_chB_out_dut,
+	over_flow_out => over_flow_out_dut,
 
 	clk => clk_dut);
 
@@ -112,11 +110,11 @@ begin
 	gain_ctrA3_dut <= to_unsigned(32, GAIN_WIDTH_IN);
 
 	gain_ctrB0_dut <= to_unsigned(16, GAIN_WIDTH_IN);
-	gain_ctrB1_dut <= to_unsigned(16, GAIN_WIDTH_IN);
+	gain_ctrB1_dut <= to_unsigned(32, GAIN_WIDTH_IN);
 	gain_ctrB2_dut <= to_unsigned(32, GAIN_WIDTH_IN);
 	gain_ctrB3_dut <= to_unsigned(16, GAIN_WIDTH_IN);
 
-	gain_ctrMA_dut <= to_unsigned(32, GAIN_WIDTH_IN);
+	gain_ctrMA_dut <= to_unsigned(0, GAIN_WIDTH_IN);
 	gain_ctrMB_dut <= to_unsigned(32, GAIN_WIDTH_IN);
 
 	while not endfile(fInput) loop
@@ -126,7 +124,7 @@ begin
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
 
-		wait for 3*clk_cyl;
+		wait for 4*500*clk_cyl;
 
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);
@@ -137,7 +135,7 @@ begin
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
 
-		wait for 3*clk_cyl;
+		wait for 4*500*clk_cyl;
 
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);
@@ -147,7 +145,7 @@ begin
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
 
-		wait for 3*clk_cyl;
+		wait for 4*500*clk_cyl;
 
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);
@@ -158,7 +156,7 @@ begin
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
 
-		wait for 3*clk_cyl;
+		wait for 4*500*clk_cyl;
 
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);

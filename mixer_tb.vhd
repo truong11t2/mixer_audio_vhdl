@@ -58,6 +58,8 @@ signal data_out_dut: signed(DATA_WIDTH_OUT-1 downto 0);
 signal over_flow_out_dut: signed(1 downto 0);
 
 signal  clk_dut: std_logic := '0';
+
+--96MHz clock
 constant clk_cyl: time := 10.4 ns;
 
 --File handling
@@ -99,11 +101,12 @@ stimuli: process
 	variable ch: character;
 	variable int_out: integer;
 begin
-	file_open(fInput, "mixer_data_tb.txt", read_mode);
-	file_open(fOutput, "results.txt", write_mode);
+	file_open(fInput, "mixer_data_in.txt", read_mode);
+	file_open(fOutput, "mixer_data_out.txt", write_mode);
 	while not endfile(fInput) loop
 		readline(fInput, inLine);
 
+		--provide the gain A0, A1, A2, A3
 		hread(inLine, tempLvlIn);
 		gain_ctrA0_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 		read(inLine, ch);
@@ -117,6 +120,7 @@ begin
 		gain_ctrA3_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 		read(inLine, ch);
 
+		--provide the gain B0, B1, B2, B3
 		hread(inLine, tempLvlIn);
 		gain_ctrB0_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 		read(inLine, ch);
@@ -130,29 +134,32 @@ begin
 		gain_ctrB3_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 		read(inLine, ch);
 
+		--provide the gain MA, MB
 		hread(inLine, tempLvlIn);
 		gain_ctrMA_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 		read(inLine, ch);
 		hread(inLine, tempLvlIn);
 		gain_ctrMB_dut <= unsigned(tempLvlIn(GAIN_WIDTH_IN-1 downto 0));
 
-		--wait for clk_cyl/2;
+		--provide data in
 		hread(inLine, tempDataIn);
 		data_in_dut <= signed(tempDataIn);
 		read(inLine, ch);
-
+		
+		--wait until the calculation on finish 4 clocks with frequency 192KHz
 		wait for 4*500*clk_cyl;
-
+		
+		--update data to the text file
 		int_out := to_integer(data_out_dut);
 		write(outLine, int_out, left, 4);
 		writeline(fOutput, outLine);
-		--wait for 4*clk_cyl;
+
 	end loop;
 
 	file_close(fInput);
 	file_close(fOutput);
 
-	wait for 30*clk_cyl;
+	wait;
 
 end process;
 

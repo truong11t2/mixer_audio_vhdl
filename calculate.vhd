@@ -39,7 +39,7 @@ calculation: process(clk)
 variable temp: signed(DATA_WIDTH_IN+1 downto 0);
 begin
 if rising_edge(clk) then
-	--mul_rsl_a0 <= gainCal(data_0, gain_a0);
+	mul_rsl_a0 <= gainCal(data_0, gain_a0);
 	temp := overFlowCal(ch0, ch1, ch2, ch3);
 	add_rsl <= temp(DATA_WIDTH_IN-1 downto 0);
 	over_flow_flg <= temp(DATA_WIDTH_IN+1 downto DATA_WIDTH_IN);
