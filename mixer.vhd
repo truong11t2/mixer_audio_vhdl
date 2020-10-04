@@ -141,7 +141,7 @@ begin
 end process;
 
 -- State machine to copy data to registers and do calculation 
-process_ch0: process(curr_state, gain_ctrA0, gain_ctrA1, gain_ctrA2, gain_ctrA3, gain_ctrB0, gain_ctrB1, gain_ctrB2, gain_ctrB3, gain_ctrMA, gain_ctrMB)
+process_ch0: process(curr_state)
 begin
 base_add_A <= 0;
 base_add_B <= 4;

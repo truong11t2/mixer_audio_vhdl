@@ -57,19 +57,19 @@ elsif (gainLvl=0 and dataIn < 0) then return mulResultTyp("11111111111" & dataIn
 else
 	for i in gainLvl'length-1 downto 0 loop
 		--Bit 9-5 used for increasement (each bit will increase 32 times if all bits are set 
-		--the increasement is 32+64+128+256+512=992 times approximaly +30dB(+1000 times)
-		if(i=9 and gainLvl(i)='1') then gain_cal := gain_cal + 512;
-		elsif(i=8 and gainLvl(i)='1') then gain_cal := gain_cal + 256;
-		elsif(i=7 and gainLvl(i)='1') then gain_cal := gain_cal + 128;
-		elsif(i=6 and gainLvl(i)='1') then gain_cal := gain_cal + 64;
-		elsif(i=5 and gainLvl(i)='1') then gain_cal := gain_cal + 32;
+		--the increasement is 1+2+4+8+16=31 times approximaly +30dB(+31.62 times)
+		if(i=9 and gainLvl(i)='1') then gain_cal := gain_cal + 16;
+		elsif(i=8 and gainLvl(i)='1') then gain_cal := gain_cal + 8;
+		elsif(i=7 and gainLvl(i)='1') then gain_cal := gain_cal + 4;
+		elsif(i=6 and gainLvl(i)='1') then gain_cal := gain_cal + 2;
+		elsif(i=5 and gainLvl(i)='1') then gain_cal := gain_cal + 1;
 		--Bit 4-0 used for decreasement (each bit will decrease 32 times if all bits are set 
-		--the decreasement is 32+64+128+256+512=992 times approximaly -30dB(-1000 times)
-		elsif(i=4 and gainLvl(i)='1') then gain_cal := gain_cal + 32;
-		elsif(i=3 and gainLvl(i)='1') then gain_cal := gain_cal + 64;
-		elsif(i=2 and gainLvl(i)='1') then gain_cal := gain_cal + 128;
-		elsif(i=1 and gainLvl(i)='1') then gain_cal := gain_cal + 256;
-		elsif(i=0 and gainLvl(i)='1') then gain_cal := gain_cal + 512;
+		--the decreasement is 1+2+4+8+16=31 times approximaly -30dB(-31.62 times)
+		elsif(i=4 and gainLvl(i)='1') then gain_cal := gain_cal + 1;
+		elsif(i=3 and gainLvl(i)='1') then gain_cal := gain_cal + 2;
+		elsif(i=2 and gainLvl(i)='1') then gain_cal := gain_cal + 4;
+		elsif(i=1 and gainLvl(i)='1') then gain_cal := gain_cal + 8;
+		elsif(i=0 and gainLvl(i)='1') then gain_cal := gain_cal + 16;
 		end if;
 	end loop;
 	--Signal gain
